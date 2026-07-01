@@ -1,0 +1,22 @@
+name: Branch naming
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  validate:
+    name: Validate branch name
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          echo "Branch: $BRANCH"
+          if [[ "$BRANCH" =~ ^(FT|FIX|HOTFIX|DOC|REFACTO)_.+ ]]; then
+            echo "Branch name '$BRANCH' is valid."
+          else
+            echo "Invalid branch name '$BRANCH'."
+            echo "Expected prefix: FT_ / FIX_ / HOTFIX_ / DOC_ / REFACTO_"
+            exit 1
+          fi
