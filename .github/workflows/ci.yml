@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
   checks: write
+  actions: write
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -47,7 +48,17 @@ jobs:
   build:
     name: Build Windows
     runs-on: ubuntu-latest
+    env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
     steps:
+      - name: Discord - build start
+        if: env.DISCORD_WEBHOOK != ''
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$(jq -n \
+            --arg url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --arg actor "${{ github.actor }}" --arg ref "${{ github.ref_name }}" \
+            '{embeds:[{title:"🔨 Build Unity démarrée",url:$url,color:5793266,fields:[{name:"Déclenché par",value:$actor,inline:true},{name:"Ref",value:$ref,inline:true}]}]}')"
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -77,3 +88,40 @@ jobs:
           name: Build-StandaloneWindows64
           path: build
           retention-days: 7
+
+      - name: Clean old artifacts (keep last 5)
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data } = await github.rest.actions.listArtifactsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Build-StandaloneWindows64',
+              per_page: 100
+            });
+            const sorted = data.artifacts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            for (const art of sorted.slice(5)) {
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: art.id
+              });
+              console.log(`Deleted artifact ${art.id} (${art.created_at})`);
+            }
+
+      - name: Discord - success
+        if: success() && env.DISCORD_WEBHOOK != ''
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$(jq -n \
+            --arg url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --arg actor "${{ github.actor }}" --arg ref "${{ github.ref_name }}" \
+            '{embeds:[{title:"✅ Build Unity réussie",url:$url,color:5763719,fields:[{name:"Déclenché par",value:$actor,inline:true},{name:"Ref",value:$ref,inline:true},{name:"Artifact",value:"Build-StandaloneWindows64",inline:false}]}]}')"
+
+      - name: Discord - failure
+        if: failure() && env.DISCORD_WEBHOOK != ''
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$(jq -n \
+            --arg url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --arg actor "${{ github.actor }}" --arg ref "${{ github.ref_name }}" \
+            '{embeds:[{title:"❌ Build Unity échouée",url:$url,color:15548997,fields:[{name:"Déclenché par",value:$actor,inline:true},{name:"Ref",value:$ref,inline:true}]}]}')"
