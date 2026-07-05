@@ -1,5 +1,7 @@
 # 🎮 Survivor's Honor
 
+🇬🇧 English · [🇫🇷 Français](README.fr.md)
+
 [![CI](https://github.com/LoneComp/Survivor-s-Honor/actions/workflows/ci.yml/badge.svg)](https://github.com/LoneComp/Survivor-s-Honor/actions/workflows/ci.yml)
 ![Unity](https://img.shields.io/badge/Unity-6000.2.9f1-black?logo=unity)
 ![Platform](https://img.shields.io/badge/platform-Windows-0078D6)
@@ -8,22 +10,22 @@
 
 ---
 
-## 🕹️ À propos
+## 🕹️ About
 
-**Survivor's Honor** est un jeu de survival horror développé sous **Unity 6**. Affronte des vagues de zombies, gère tes ressources, explore un environnement imprévisible et compose avec des armes procédurales.
+**Survivor's Honor** is a survival horror game built with **Unity 6**. Face waves of zombies, manage your resources, explore an unpredictable environment and deal with procedurally generated weapons.
 
-## 🛠️ Stack technique
+## 🛠️ Tech stack
 
 | | |
 |---|---|
-| **Moteur** | Unity `6000.2.9f1` |
-| **Plateforme cible** | Windows (StandaloneWindows64) |
-| **Versioning gros fichiers** | Git LFS |
+| **Engine** | Unity `6000.2.9f1` |
+| **Target platform** | Windows (StandaloneWindows64) |
+| **Large-file versioning** | Git LFS |
 | **CI/CD** | GitHub Actions (GameCI) |
 
-### Prérequis pour développer en local
+### Local development prerequisites
 - **Unity Hub** + version **6000.2.9f1**
-- **Git** et **Git LFS** (`git lfs install`)
+- **Git** and **Git LFS** (`git lfs install`)
 
 ```bash
 git clone https://github.com/LoneComp/Survivor-s-Honor.git
@@ -33,95 +35,95 @@ git lfs pull
 
 ---
 
-## 🌿 Branches & convention de nommage
+## 🌿 Branches & naming convention
 
-| Branche | Rôle |
+| Branch | Role |
 |---|---|
-| `main` | Production stable — **protégée** (PR + review + CI obligatoires) |
-| `Dev` | Intégration — **protégée** |
-| *branches de travail* | Créées depuis `Dev`/`main`, préfixées (voir ci-dessous) |
+| `main` | Stable production — **protected** (PR + review + CI required) |
+| `Dev` | Integration — **protected** |
+| *working branches* | Created from `Dev`/`main`, prefixed (see below) |
 
-Toute nouvelle branche **doit** commencer par un de ces préfixes (imposé par un *ruleset*) :
+Every new branch **must** start with one of these prefixes (enforced by a *ruleset*):
 
-| Préfixe | Usage | Exemple |
+| Prefix | Purpose | Example |
 |---|---|---|
-| `FT_` | Nouvelle fonctionnalité | `FT_inventaire-drag-drop` |
-| `FIX_` | Correction de bug | `FIX_collision-zombie` |
-| `HOTFIX_` | Correctif urgent | `HOTFIX_crash-menu` |
+| `FT_` | New feature | `FT_inventory-drag-drop` |
+| `FIX_` | Bug fix | `FIX_zombie-collision` |
+| `HOTFIX_` | Urgent fix | `HOTFIX_menu-crash` |
 | `DOC_` | Documentation | `DOC_readme-controls` |
 | `REFACTO_` | Refactoring | `REFACTO_player-controller` |
 
-> 💡 Les branches créées depuis une issue (`12-titre`) doivent être renommées en `FT_12-titre` pour respecter la convention.
+> 💡 Branches created from an issue (`12-title`) must be renamed to `FT_12-title` to satisfy the convention.
 
 ---
 
-## 🗂️ Tableau Kanban
+## 🗂️ Kanban board
 
-Le suivi se fait sur le [**board GitHub Projects**](https://github.com/orgs/LoneComp/projects/1).
+Work is tracked on the [**GitHub Projects board**](https://github.com/orgs/LoneComp/projects/1).
 
-### Colonnes (`Status`)
-| | Colonne | Signification |
+### Columns (`Status`)
+| | Column | Meaning |
 |---|---|---|
-| 📋 | **Backlog** | Idées / tâches non planifiées |
-| 🐛 | **Bug Backlog** | Bugs à traiter |
-| 🎯 | **Ready** | Prêt à être pris |
-| 🚧 | **In Progress** | En cours de développement |
-| 👀 | **In Review** | PR ouverte / en relecture |
-| 🚫 | **Blocked** | Bloqué (dépendance, question) |
-| ✅ | **Done** | Terminé et mergé |
+| 📋 | **Backlog** | Ideas / unplanned tasks |
+| 🐛 | **Bug Backlog** | Bugs to fix |
+| 🎯 | **Ready** | Ready to be picked up |
+| 🚧 | **In Progress** | Being worked on |
+| 👀 | **In Review** | PR open / under review |
+| 🚫 | **Blocked** | Blocked (dependency, question) |
+| ✅ | **Done** | Completed and merged |
 
-### Champs
+### Fields
 - **Priority** — 🔴 Urgent · 🟠 High · 🟡 Medium · 🟢 Low
 - **Work Type** — ✨ Feature · 🐛 Bug · 🚑 Hotfix · 📝 Documentation · ♻️ Refactor
 
-### Automatisations
-- Nouvelle issue → ajoutée au board (**Backlog**)
-- Issue fermée / PR mergée → **Done**
-- Passage en **In Review** : manuel à l'ouverture de la PR
+### Automations
+- New issue → added to the board (**Backlog**)
+- Issue closed / PR merged → **Done**
+- Moving to **In Review**: manual when opening a PR
 
 ---
 
-## 🔄 Workflow de contribution
+## 🔄 Contribution workflow
 
-1. **Créer une issue** sur le [board](https://github.com/orgs/LoneComp/projects/1) (renseigne `Priority` et `Work Type`).
-2. Depuis l'issue, panneau **Development** → **Create a branch**, puis **préfixe** le nom (ex. `FT_12-inventaire`).
-3. **Développe** et commit sur cette branche.
-4. Ouvre une **Pull Request** (vers `Dev` ou `main`) — remplis le template.
-5. La **CI** doit être verte (Tests + Build) et la review approuvée.
-6. **Merge** → l'issue liée se ferme automatiquement.
+1. **Create an issue** on the [board](https://github.com/orgs/LoneComp/projects/1) (set `Priority` and `Work Type`).
+2. From the issue, **Development** panel → **Create a branch**, then **prefix** the name (e.g. `FT_12-inventory`).
+3. **Develop** and commit on that branch.
+4. Open a **Pull Request** (to `Dev` or `main`) — fill in the template.
+5. **CI** must be green (Tests + Build) and the review approved.
+6. **Merge** → the linked issue closes automatically.
 
 ---
 
 ## 🤖 CI/CD
 
-| Workflow | Déclencheur | Rôle |
+| Workflow | Trigger | Role |
 |---|---|---|
-| [`ci.yml`](.github/workflows/ci.yml) | PR, push sur `main` | Tests (EditMode/PlayMode) + Build Windows + notifs Discord |
-| [`branch-naming.yml`](.github/workflows/branch-naming.yml) | PR | Vérifie le préfixe de la branche |
-| [`release.yml`](.github/workflows/release.yml) | tag `v*` | Build + publication d'une Release GitHub |
+| [`ci.yml`](.github/workflows/ci.yml) | PR, push to `main` | Tests (EditMode/PlayMode) + Windows build + Discord notifications |
+| [`branch-naming.yml`](.github/workflows/branch-naming.yml) | PR | Validates the branch prefix |
+| [`release.yml`](.github/workflows/release.yml) | tag `v*` | Build + GitHub Release publication |
 
-### Publier une release
+### Publishing a release
 ```bash
 git tag v0.1.0
 git push origin v0.1.0
 ```
-→ build automatique + Release GitHub avec l'exécutable Windows zippé.
+→ automatic build + GitHub Release with the zipped Windows executable.
 
 ### Tests
-Les tests EditMode vivent dans [`Assets/Tests/EditMode/`](Assets/Tests/EditMode/). Ajoute tes tests dans cette assembly ; ils tournent à chaque PR.
+EditMode tests live in [`Assets/Tests/EditMode/`](Assets/Tests/EditMode/). Add your tests to that assembly; they run on every PR.
 
 ---
 
-## 📦 Structure du projet
+## 📦 Project structure
 
 ```
-Assets/            # Code, scènes, prefabs, art
-  Tests/EditMode/  # Tests unitaires
-Packages/          # Dépendances Unity (manifest.json)
-ProjectSettings/   # Configuration Unity
+Assets/            # Code, scenes, prefabs, art
+  Tests/EditMode/  # Unit tests
+Packages/          # Unity dependencies (manifest.json)
+ProjectSettings/   # Unity configuration
 .github/workflows/ # CI/CD
 ```
 
 ---
 
-*Développé avec ❤️ sous Unity 6.*
+*Made with ❤️ using Unity 6.*
