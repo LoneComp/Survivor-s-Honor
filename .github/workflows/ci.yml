@@ -5,6 +5,10 @@ on:
     types: [opened, reopened, synchronize]
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - '.gitignore'
   workflow_dispatch: {}
 
 permissions:
